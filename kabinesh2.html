@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="imageGalleryApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Image Gallery</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body ng-controller="GalleryController">
+  <div id="image-gallery">
+    <div class="image" ng-repeat="image in images" ng-click="showDetails(image)">
+      <img src="{{ image.src }}" alt="{{ image.title }}">
+    </div>
+
+    <div class="details" ng-show="selectedImage">
+      <img src="{{ selectedImage.src }}" alt="{{ selectedImage.title }}">
+      <h2>{{ selectedImage.title }}</h2>
+      <p>{{ selectedImage.description }}</p>
+      <button ng-click="closeDetails()">Close</button>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image img:hover {
+  transform: scale(1.1);
+}
+
+.details {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.details img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.details button {
+  padding: 8px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}<script>
+  angular.module('imageGalleryApp', [])
+  .controller('GalleryController', function ($scope) {
+    $scope.images = [
+      {
+        src: 'image1.jpg',
+        title: 'Image 1',
+        description: 'A beautiful landscape.'
+      },
+      {
+        src: 'image2.jpg',
+        title: 'Image 2',
+        description: 'A cute animal.'
+      },
+      {
+        src: 'image3.jpg',
+        title: 'Image 3',
+        description: 'A stunning cityscape.'
+      }
+      // Add more images as needed
+    ];
+
+    $scope.selectedImage = null;
+
+    $scope.showDetails = function (image) {
+      $scope.selectedImage = image;
+      document.body.style.overflow = 'hidden'; // Disable scrolling when details are open
+    };
+
+    $scope.closeDetails = function () {
+      $scope.selectedImage = null;
+      document.body.style.overflow = ''; // Enable scrolling when details are closed
+    };
+  });
+  </script>
+</body>
+
+</html>
