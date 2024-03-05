@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="taskListApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task List Manager</title>
+ <style>
+    body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#task-app {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 8px;
+  width: 70%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px;
+  margin-left: 8px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 5px 0;
+  padding: 8px;
+}
+
+li button {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+ </style>
+</head>
+
+<body ng-controller="TaskListController">
+  <div id="task-app">
+    <h1>Task List Manager</h1>
+    
+    <!-- Task Input Form -->
+    <form ng-submit="addTask()">
+      <input type="text" ng-model="newTask" placeholder="Add a new task" required>
+      <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Task List -->
+    <ul>
+      <li ng-repeat="task in tasks">
+        <span>{{ task.name }}</span>
+        <button ng-click="editTask(task)">Edit</button>
+        <button ng-click="deleteTask(task)">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    angular.module('taskListApp', [])
+  .controller('TaskListController', function ($scope) {
+    $scope.tasks = [];
+    $scope.newTask = '';
+
+    $scope.addTask = function () {
+      if ($scope.newTask.trim() !== '') {
+        $scope.tasks.push({ name: $scope.newTask });
+        $scope.newTask = '';
+      }
+    };
+
+    $scope.editTask = function (task) {
+      var updatedTask = prompt('Edit task:', task.name);
+      if (updatedTask !== null) {
+        task.name = updatedTask;
+      }
+    };
+
+    $scope.deleteTask = function (task) {
+      var index = $scope.tasks.indexOf(task);
+      if (index !== -1) {
+        $scope.tasks.splice(index, 1);
+      }
+    };
+  });
+  </script>
+</body>
+
+</html>
